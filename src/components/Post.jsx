@@ -30,6 +30,13 @@ export function Post ({ author, content, publishedAt }) {
     setNewCommentText('')
   }
 
+  function deleteComment (commentToDelete) {
+    const commentsWithoutTheDeletedOne = comments
+      .filter(comment => comment !== commentToDelete)
+      
+    setComments(commentsWithoutTheDeletedOne)
+  }
+
   return (
     <article className={styles.post}>
       <header>
@@ -43,7 +50,10 @@ export function Post ({ author, content, publishedAt }) {
           </div>
         </div>
 
-        <time title={publishedDateFormatted} dateTime={publishedAt.toISOString()}>
+        <time 
+          title={publishedDateFormatted} 
+          dateTime={publishedAt.toISOString()}
+        >
           {publishedDateRelativeToNow}
         </time>
       </header>
@@ -77,6 +87,7 @@ export function Post ({ author, content, publishedAt }) {
           <Comment
             key={comment}
             content={comment}
+            onDeleteComment={deleteComment}
           />
         ))}
       </div>
