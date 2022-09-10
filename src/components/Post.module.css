@@ -124,3 +124,7 @@
   background: var(--green-300);
   box-shadow: 0 0 0 2px var(--green-500);
 }
+
+.commentList {
+  margin-top: 2rem;
+}
