@@ -1,3 +1,5 @@
+import React, { useState } from 'react'
+
 import { format, formatDistanceToNow } from 'date-fns'
 import ptBR from 'date-fns/locale/pt-BR'
 
@@ -7,6 +9,11 @@ import { Comment } from './Comment'
 import { Avatar } from './Avatar'
 
 export function Post ({ author, content, publishedAt }) {
+  const [comments, setComments] = useState([
+    'Parabéns, belo post!'
+  ])
+  const [newCommentText, setNewCommentText] = useState('')
+
   const publishedDateFormatted = format(publishedAt, "d 'de' LLLL 'às' HH:mm'h'", {
     locale: ptBR
   })
@@ -15,6 +22,13 @@ export function Post ({ author, content, publishedAt }) {
     locale: ptBR,
     addSuffix: true
   })
+
+  function handleCreateNewComment (event) {
+    event.preventDefault()
+
+    setComments(comments => [...comments, newCommentText])
+    setNewCommentText('')
+  }
 
   return (
     <article className={styles.post}>
@@ -37,18 +51,20 @@ export function Post ({ author, content, publishedAt }) {
       <div className={styles.content}>
         {content.map(line => {
           if (line.type === 'paragraph') {
-            return <p>{line.content}</p>
+            return <p key={line.content}>{line.content}</p>
           } else if (line.type === 'link') {
-            return <p><a href='#'>{line.content}</a></p>
+            return <p key={line.content}><a href='#'>{line.content}</a></p>
           }
         })}
       </div>
 
-      <form className={styles.commentForm}>
+      <form onSubmit={handleCreateNewComment} className={styles.commentForm}>
         <strong>Deixe seu comentário</strong>
 
         <textarea
           placeholder="Deixe um comentário"
+          value={newCommentText}
+          onChange={event => setNewCommentText(event.target.value)}
         />
 
         <footer>
@@ -57,9 +73,12 @@ export function Post ({ author, content, publishedAt }) {
       </form>
 
       <div className={styles.commentList}>
-        <Comment />
-        <Comment />
-        <Comment />
+        {comments.map(comment => (
+          <Comment
+            key={comment}
+            content={comment}
+          />
+        ))}
       </div>
     </article>
   )
