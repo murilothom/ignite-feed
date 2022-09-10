@@ -13,11 +13,11 @@ export function Sidebar () {
       
       <div className={styles.profile}>
         <Avatar
-          src="https://github.com/origamid.png"
+          src="https://github.com/murilothom.png"
         />
 
-        <strong>André Origamid</strong>
-        <span>Front-end {"&"} UI/UX Designer</span>
+        <strong>Murilo Thom</strong>
+        <span>Desenvolvedor Front-end</span>
       </div>
 
       <footer>
